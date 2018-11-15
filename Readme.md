@@ -1,3 +1,9 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [MainWindow.xaml](./CS/scratch/MainWindow.xaml) (VB: [MainWindow.xaml](./VB/scratch/MainWindow.xaml))
+* [MainWindow.xaml.cs](./CS/scratch/MainWindow.xaml.cs) (VB: [MainWindow.xaml](./VB/scratch/MainWindow.xaml))
+<!-- default file list end -->
 # How to create a movable legend at runtime
 
 
