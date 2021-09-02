@@ -1,30 +1,14 @@
-﻿Imports Microsoft.VisualBasic
-Imports System.Windows
+﻿Imports System.Windows
 Imports System.Windows.Input
 Imports DevExpress.Xpf.Charts
 
 Namespace scratch
 	Partial Public Class MainWindow
 		Inherits Window
-		Private privateclickPosition As Point
+
 		Private Property clickPosition() As Point
-			Get
-				Return privateclickPosition
-			End Get
-			Set(ByVal value As Point)
-				privateclickPosition = value
-			End Set
-		End Property
 		Private startDragging As Point
-		Private privateisDragging As Boolean
 		Public Property isDragging() As Boolean
-			Get
-				Return privateisDragging
-			End Get
-			Set(ByVal value As Boolean)
-				privateisDragging = value
-			End Set
-		End Property
 
 		Public Sub New()
 			InitializeComponent()
@@ -34,11 +18,11 @@ Namespace scratch
 			startDragging = e.GetPosition(chartControl1)
 			Dim hitInfo As ChartHitInfo = chartControl1.CalcHitInfo(startDragging)
 			isDragging = hitInfo IsNot Nothing AndAlso hitInfo.InLegend
-			CType(sender, UIElement).CaptureMouse()
+			DirectCast(sender, UIElement).CaptureMouse()
 		End Sub
 
 		Private Sub chart_MouseLeftButtonUp(ByVal sender As Object, ByVal e As MouseButtonEventArgs)
-			CType(sender, UIElement).ReleaseMouseCapture()
+			DirectCast(sender, UIElement).ReleaseMouseCapture()
 			isDragging = False
 		End Sub
 
