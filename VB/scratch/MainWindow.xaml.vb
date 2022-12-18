@@ -1,59 +1,54 @@
-﻿Imports System.Windows
+Imports System.Windows
 Imports System.Windows.Input
 Imports DevExpress.Xpf.Charts
 
 Namespace scratch
-	Partial Public Class MainWindow
-		Inherits Window
 
-		Private Property clickPosition() As Point
-		Private startDragging As Point
-		Public Property isDragging() As Boolean
+    Public Partial Class MainWindow
+        Inherits Window
 
-		Public Sub New()
-			InitializeComponent()
-		End Sub
+        Private Property clickPosition As Point
 
-		Private Sub chart_MouseLeftButtonDown(ByVal sender As Object, ByVal e As MouseButtonEventArgs)
-			startDragging = e.GetPosition(chartControl1)
-			Dim hitInfo As ChartHitInfo = chartControl1.CalcHitInfo(startDragging)
-			isDragging = hitInfo IsNot Nothing AndAlso hitInfo.InLegend
-			DirectCast(sender, UIElement).CaptureMouse()
-		End Sub
+        Private startDragging As Point
 
-		Private Sub chart_MouseLeftButtonUp(ByVal sender As Object, ByVal e As MouseButtonEventArgs)
-			DirectCast(sender, UIElement).ReleaseMouseCapture()
-			isDragging = False
-		End Sub
+        Public Property isDragging As Boolean
 
-		Private Sub chart_MouseMove(ByVal sender As Object, ByVal e As MouseEventArgs)
-			If e.LeftButton = MouseButtonState.Pressed AndAlso isDragging Then
-				Dim endDragging As Point = e.GetPosition(chartControl1)
-				Dim inLegendPosition As Point = e.GetPosition(legend)
+        Public Sub New()
+            Me.InitializeComponent()
+        End Sub
 
-				If inLegendPosition.X < 0 Then
-					inLegendPosition.X = 0
-				ElseIf inLegendPosition.X > legend.ActualWidth Then
-					inLegendPosition.X = legend.ActualWidth
-				End If
+        Private Sub chart_MouseLeftButtonDown(ByVal sender As Object, ByVal e As MouseButtonEventArgs)
+            startDragging = e.GetPosition(Me.chartControl1)
+            Dim hitInfo As ChartHitInfo = Me.chartControl1.CalcHitInfo(startDragging)
+            isDragging = hitInfo IsNot Nothing AndAlso hitInfo.InLegend
+            CType(sender, UIElement).CaptureMouse()
+        End Sub
 
-				If inLegendPosition.Y < 0 Then
-					inLegendPosition.Y = 0
-				ElseIf inLegendPosition.Y > legend.ActualHeight Then
-					inLegendPosition.Y = legend.ActualHeight
-				End If
+        Private Sub chart_MouseLeftButtonUp(ByVal sender As Object, ByVal e As MouseButtonEventArgs)
+            CType(sender, UIElement).ReleaseMouseCapture()
+            isDragging = False
+        End Sub
 
-				If endDragging.X - inLegendPosition.X > 0 AndAlso endDragging.X + legend.ActualWidth - inLegendPosition.X < chartControl1.ActualWidth Then
-						legendTransform.X += endDragging.X - startDragging.X
-				End If
+        Private Sub chart_MouseMove(ByVal sender As Object, ByVal e As MouseEventArgs)
+            If e.LeftButton = MouseButtonState.Pressed AndAlso isDragging Then
+                Dim endDragging As Point = e.GetPosition(Me.chartControl1)
+                Dim inLegendPosition As Point = e.GetPosition(Me.legend)
+                If inLegendPosition.X < 0 Then
+                    inLegendPosition.X = 0
+                ElseIf inLegendPosition.X > Me.legend.ActualWidth Then
+                    inLegendPosition.X = Me.legend.ActualWidth
+                End If
 
-				If endDragging.Y - inLegendPosition.Y > 0 AndAlso endDragging.Y + legend.ActualHeight - inLegendPosition.Y < chartControl1.ActualHeight Then
-						legendTransform.Y += endDragging.Y - startDragging.Y
-				End If
+                If inLegendPosition.Y < 0 Then
+                    inLegendPosition.Y = 0
+                ElseIf inLegendPosition.Y > Me.legend.ActualHeight Then
+                    inLegendPosition.Y = Me.legend.ActualHeight
+                End If
 
-				startDragging = endDragging
-			End If
-		End Sub
-
-	End Class
+                If endDragging.X - inLegendPosition.X > 0 AndAlso endDragging.X + Me.legend.ActualWidth - inLegendPosition.X < Me.chartControl1.ActualWidth Then Me.legendTransform.X += endDragging.X - startDragging.X
+                If endDragging.Y - inLegendPosition.Y > 0 AndAlso endDragging.Y + Me.legend.ActualHeight - inLegendPosition.Y < Me.chartControl1.ActualHeight Then Me.legendTransform.Y += endDragging.Y - startDragging.Y
+                startDragging = endDragging
+            End If
+        End Sub
+    End Class
 End Namespace
